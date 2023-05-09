@@ -23,25 +23,24 @@ jobs:
       run: |
         echo "Deploying Code"
 
-    - name: "Dynatrace Deployment Event"
+    - name: Dynatrace Deployment Event
       uses: dynatrace-oss/dynatrace-github-action@v9
       with:
-        url: '${{ secrets.DT_BASE_URL }}'
-        token: '${{ secrets.DT_API_TOKEN }}'
-
+        url: '${{ secrets.DT_URL }}'
+        token: '${{ secrets.DT_TOKEN }}'
         events: |
           - type: CUSTOM_DEPLOYMENT
-            source: GitHub
-            deploymentName: Simulated deployment "$(date "+%Y-%m-%d--%H.%M.%S")
-            deploymentVersion: 1
-            deploymentProject: demo
-            ciBackLink: "https://github.com/dt-demos/github-actions/actions/runs/${{ github.run_id }}"
-            tags:
-              - SERVICE:keptn_project:release-demo
-
-            dimensions:
+            title: Simulated deployment "$(date "+%Y-%m-%d--%H.%M.%S")
+            entitySelector: type(SERVICE),tag(keptn_project:release-demo),tag(keptn_service:casdemoapp),tag(keptn_stage:production)
+            properties:
+              source: GitHub
+              deploymentName: "GitHub Action"
+              deploymentVersion: "${{ github.ref }}"
+              deploymentProject: "${{ github.repository }}"
+              remediationAction: "None"
+              ciBackLink: "https://github.com/${{ github.repository }}"
               project: "${{ github.repository }}"
-              repository-owner: ${{ github.repository_owner }}
-              repository: "https://github.com/${{ github.repository }}"
-              repository-branch: "${{ github.ref }}"
+              branch: "${{ github.ref }}"
+              event: "${{ github.event_name }}"
+              owner: demo-user
           
