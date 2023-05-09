@@ -2,7 +2,7 @@
 # DT_BASE_URL
 # DT_API_TOKEN 
 
-name: Deploy Order Service
+name: Demo Deployment
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -23,8 +23,8 @@ jobs:
       run: |
         echo "Deploying Code"
 
-    - name: "Dynatrace Deployment Event Order Service"
-      uses: dynatrace-oss/dynatrace-github-action@v8
+    - name: "Dynatrace Deployment Event"
+      uses: dynatrace-oss/dynatrace-github-action@v9
       with:
         url: '${{ secrets.DT_BASE_URL }}'
         token: '${{ secrets.DT_API_TOKEN }}'
