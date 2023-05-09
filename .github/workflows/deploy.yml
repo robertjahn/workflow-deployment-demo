@@ -27,7 +27,7 @@ jobs:
       uses: dynatrace-oss/dynatrace-github-action@v9
       with:
         url: '${{ secrets.DT_BASE_URL }}'
-        token: '${{ secrets.DT_TOKEN }}'
+        token: '${{ secrets.DT_API_TOKEN }}'
         events: |
           - type: CUSTOM_DEPLOYMENT
             title: Simulated deployment
