@@ -1,0 +1,47 @@
+# requires the following secrets:
+# DT_BASE_URL
+# DT_API_TOKEN 
+
+name: Deploy Order Service
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Get code from github repo"
+      uses: actions/checkout@master
+      
+    - name: "Build Code"
+      run: |
+        echo "Building Code"
+
+    - name: "Deploy Code"
+      run: |
+        echo "Deploying Code"
+
+    - name: "Dynatrace Deployment Event Order Service"
+      uses: dynatrace-oss/dynatrace-github-action@v8
+      with:
+        url: '${{ secrets.DT_BASE_URL }}'
+        token: '${{ secrets.DT_API_TOKEN }}'
+
+        events: |
+          - type: CUSTOM_DEPLOYMENT
+            source: GitHub
+            deploymentName: Simulated deployment "$(date "+%Y-%m-%d--%H.%M.%S")
+            deploymentVersion: 1
+            deploymentProject: demo
+            ciBackLink: "https://github.com/dt-demos/github-actions/actions/runs/${{ github.run_id }}"
+            tags:
+              - SERVICE:keptn_project:release-demo
+
+            dimensions:
+              project: "${{ github.repository }}"
+              repository-owner: ${{ github.repository_owner }}
+              repository: "https://github.com/${{ github.repository }}"
+              repository-branch: "${{ github.ref }}"
+          
