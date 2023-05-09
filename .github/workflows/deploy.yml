@@ -25,13 +25,14 @@ jobs:
 
     - name: Dynatrace Deployment Event
       uses: dynatrace-oss/dynatrace-github-action@v9
+      env:
+          demo_title: Simulated deployment ${{ date '+%Y-%m-%d--%H.%M.%S' }}
       with:
         url: '${{ secrets.DT_BASE_URL }}'
         token: '${{ secrets.DT_API_TOKEN }}'
-        demo_title: Simulated deployment {{ date '+%Y-%m-%d--%H.%M.%S' }}
         events: |
           - type: CUSTOM_DEPLOYMENT
-            title: "Simulated deployment "$(date "+%Y-%m-%d--%H.%M.%S")
+            title: $demo_title
             entitySelector: type(SERVICE),tag(keptn_project:release-demo),tag(keptn_service:casdemoapp),tag(keptn_stage:production)
             properties:
               source: GitHub
