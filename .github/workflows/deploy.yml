@@ -28,6 +28,7 @@ jobs:
       with:
         url: '${{ secrets.DT_BASE_URL }}'
         token: '${{ secrets.DT_API_TOKEN }}'
+        demo_title: Simulated deployment {{ date '+%Y-%m-%d--%H.%M.%S' }}
         events: |
           - type: CUSTOM_DEPLOYMENT
             title: "Simulated deployment "$(date "+%Y-%m-%d--%H.%M.%S")
